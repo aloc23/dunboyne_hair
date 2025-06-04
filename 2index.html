@@ -25,8 +25,39 @@
       "Hi-Lift": { Shampoo: 25, Conditioner: 15, Colour: 60, Peroxide: 120, Bleach: 240, Gloves: 1 },
       "Masking": { Shampoo: 25, Conditioner: 15, Colour: 15, Peroxide: 45, Bleach: 90, Gloves: 1 },
       "Root Melt": { Shampoo: 25, Conditioner: 15, Colour: 45, Peroxide: 78.5, Bleach: 157, Gloves: 1 },
+      "Root Tint": { Shampoo: 25, Conditioner: 15, Colour: 45, Peroxide: 78.5, Bleach: 157, Gloves: 1 },
+      "semi long": { Shampoo: 25, Conditioner: 15, Colour: 45, Peroxide: 78.5, Bleach: 157, Gloves: 1 },
+      "Semi Short": { Shampoo: 25, Conditioner: 15, Colour: 35, Peroxide: 70, Bleach: 140, Gloves: 1 },
+      "Colour Bomb": { Shampoo: 25, Conditioner: 15, Colour: 20, Peroxide: 40, Bleach: 80, Gloves: 1 },
+      "K18 to Colour": { Shampoo: 25, Conditioner: 15, Hairspray: 30, Gloves: 1 },
+      "L'Oreal Detox": { Shampoo: 25, Conditioner: 15, Hairspray: 30 },
+      "Malabu C": { Shampoo: 25, Conditioner: 15, Peroxide: 26, Bleach: 48.75, Gloves: 1 },
+      "Revlon Gloss Treatment": { Shampoo: 25, Conditioner: 15, Peroxide: 40, Bleach: 80, Gloves: 1 },
+      "Revlon Scalp Treatment": { Shampoo: 25, Conditioner: 15 },
+      "mask": { Shampoo: 25, Conditioner: 15 },
+      "treatment": { Shampoo: 25, Conditioner: 15 },
+      "Curly Blowdry": { Shampoo: 25, Conditioner: 15, Mousse: 10, Hairspray: 30 },
+      "Gent Cut": { Shampoo: 25, Conditioner: 15, Hairspray: 10 },
+      "Gents Wash and Cut": { Shampoo: 25, Conditioner: 15, Hairspray: 10 },
+      "Cut Blowdry Long": { Shampoo: 25, Conditioner: 15, Mousse: 10, Hairspray: 30 },
+      "Cut Medium": { Shampoo: 25, Conditioner: 15, Mousse: 10, Hairspray: 20 },
+      "Cut Short": { Shampoo: 25, Conditioner: 15, Hairspray: 10 },
+      "OAP": { Shampoo: 25, Conditioner: 15, Hairspray: 10 },
+      "Short Blowdry": { Shampoo: 25, Conditioner: 15, Mousse: 10, Hairspray: 10 },
+      "Long Blowdry": { Shampoo: 25, Conditioner: 15, Mousse: 10, Hairspray: 35 },
+      "Medium Blowdry": { Shampoo: 25, Conditioner: 15, Hairspray: 25 },
+      "1/2 Head Medium": { Shampoo: 25, Conditioner: 15, Peroxide: 90, Bleach: 45 },
+      "1/2 Head Long": { Shampoo: 25, Conditioner: 15, Peroxide: 120, Bleach: 60, Wraps: 50 },
+      "Baby Lights": { Shampoo: 25, Conditioner: 15, Peroxide: 110, Bleach: 55, Wraps: 60 },
+      "Balayage": { Shampoo: 25, Conditioner: 15, Peroxide: 180, Bleach: 90, Wraps: 75 },
+      "Half Head Short": { Shampoo: 25, Conditioner: 15, Colour: 45, Peroxide: 80, Bleach: 40 },
+      "Full Head Short": { Shampoo: 25, Conditioner: 15, Colour: 60, Peroxide: 150, Bleach: 75, Wraps: 40 },
+      "Full Head Long": { Shampoo: 25, Conditioner: 15, Colour: 90, Peroxide: 180, Bleach: 90, Wraps: 60 },
       "Upstyle": { Shampoo: 25, Conditioner: 15, Mousse: 15, Hairspray: 30, Wraps: 100 },
       "Colour Change": { Shampoo: 25, Conditioner: 15, Colour: 90, Peroxide: 180, Bleach: 65 },
+      "Face Framing": { Shampoo: 25, Conditioner: 15, Peroxide: 60, Bleach: 30, Gloves: 1 },
+      "Floods": { Shampoo: 25, Conditioner: 15, Peroxide: 30, Bleach: 15, Wraps: 20 },
+      "T-Bar Long": { Shampoo: 25, Conditioner: 15, Peroxide: 70, Bleach: 35, Wraps: 20 },
       "T-Bar Short": { Shampoo: 25, Conditioner: 15, Peroxide: 65, Bleach: 32.5, Wraps: 25 }
     };
 
@@ -50,8 +81,8 @@
         list.className = 'list-group';
 
         for (const [material, amount] of Object.entries(data[service])) {
-          const item = document.createElement('li');
           const unit = (material === 'Gloves') ? 'pair(s)' : (material === 'Wraps' ? 'sheet(s)' : 'g/ml');
+          const item = document.createElement('li');
           item.className = 'list-group-item';
           item.textContent = `${material}: ${amount} ${unit}`;
           list.appendChild(item);
