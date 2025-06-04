@@ -1,4 +1,3 @@
-
 const serviceCosts = {
   "Bleach Tint": { price: 65.0, product: 4.82, utilities: 9.57 },
   "Cleanse": { price: 30.0, product: 7.02, utilities: 6.38 },
