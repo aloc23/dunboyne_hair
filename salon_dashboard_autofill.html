@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Salon Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container mt-4">
+    <h1 class="text-center mb-4">Salon Profit Calculator</h1>
+    <form id="profitForm">
+      <div class="mb-3">
+        <label for="serviceName" class="form-label">Select Service</label>
+        <select class="form-select" id="serviceName" required>
+          <option value="" disabled selected>Select a service</option>
+          <option value="Bleach Tint">Bleach Tint</option>
+          <option value="Cleanse">Cleanse</option>
+          <option value="Hi-Lift">Hi-Lift</option>
+          <option value="Masking">Masking</option>
+          <option value="Root Melt">Root Melt</option>
+          <option value="Root Tint">Root Tint</option>
+          <option value="Semi Long">Semi Long</option>
+          <option value="Semi Short">Semi Short</option>
+          <option value="Colour Bomb">Colour Bomb</option>
+          <option value="K18 to Colour">K18 to Colour</option>
+          <option value="L'oreal Detox">L'oreal Detox</option>
+          <option value="Malabu C">Malabu C</option>
+          <option value="Revlon Gloss Treat">Revlon Gloss Treat</option>
+          <option value="Revlon Scalp Treatment">Revlon Scalp Treatment</option>
+          <option value="Revlon Scalp Mask">Revlon Scalp Mask</option>
+          <option value="Treatment">Treatment</option>
+          <option value="Curly Blowdry">Curly Blowdry</option>
+          <option value="Gent Cut">Gent Cut</option>
+          <option value="Gents Wash and Cut">Gents Wash and Cut</option>
+          <option value="cut blowdry long">cut blowdry long</option>
+          <option value="cut medium">cut medium</option>
+          <option value="cut short">cut short</option>
+          <option value="oap">oap</option>
+          <option value="short blowdry">short blowdry</option>
+          <option value="long blowdry">long blowdry</option>
+          <option value="medium blowdry">medium blowdry</option>
+          <option value="1/2 head medium">1/2 head medium</option>
+          <option value="1/2 head long">1/2 head long</option>
+          <option value="baby lights">baby lights</option>
+          <option value="balayage">balayage</option>
+          <option value="half head short">half head short</option>
+          <option value="full head short">full head short</option>
+          <option value="full head long">full head long</option>
+          <option value="upstyle">upstyle</option>
+          <option value="colour change">colour change</option>
+          <option value="face framing">face framing</option>
+          <option value="floods">floods</option>
+          <option value="tbar long">tbar long</option>
+          <option value="tbar short">tbar short</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="servicePrice" class="form-label">Service Price (€)</label>
+        <input type="number" class="form-control" id="servicePrice" required />
+      </div>
+      <div class="mb-3">
+        <label for="productCost" class="form-label">Product Cost (€)</label>
+        <input type="number" class="form-control" id="productCost" required />
+      </div>
+      <div class="mb-3">
+        <label for="laborCost" class="form-label">Labor Cost (€)</label>
+        <input type="number" class="form-control" id="laborCost" required />
+      </div>
+      <div class="mb-3">
+        <label for="otherExpenses" class="form-label">Other Expenses (€)</label>
+        <input type="number" class="form-control" id="otherExpenses" required />
+      </div>
+      <button type="submit" class="btn btn-primary">Calculate Profit</button>
+    </form>
+    <div class="mt-3">
+      <h5>Net Profit for <span id="selectedService">[Service]</span>: €<span id="profitResult">0.00</span></h5>
+    </div>
+  </div>
+  <script>
+    const serviceCosts = {{
+      "Bleach Tint": {{ price: 65.0, product: 4.82, utilities: 9.57 }},
+      "Cleanse": {{ price: 30.0, product: 7.02, utilities: 6.38 }},
+      "Hi-Lift": {{ price: 55.0, product: 9.22, utilities: 9.57 }},
+      "Masking": {{ price: 35.0, product: 4.33, utilities: 3.19 }},
+      "Root Melt": {{ price: 55.0, product: 7.52, utilities: 6.38 }},
+      "Root Tint": {{ price: 50.0, product: 7.52, utilities: 6.38 }},
+      "Semi Long": {{ price: 50.0, product: 7.01, utilities: 6.38 }},
+      "Semi Short": {{ price: 46.0, product: 6.47, utilities: 4.25 }},
+      "Colour Bomb": {{ price: 10.0, product: 4.94, utilities: 2.13 }},
+      "K18 to Colour": {{ price: 25.0, product: 2.36, utilities: 1.06 }},
+      "L'oreal Detox": {{ price: 20.0, product: 2.36, utilities: 1.06 }},
+      "Malabu C": {{ price: 30.0, product: 6.47, utilities: 19.14 }},
+      "Revlon Gloss Treat": {{ price: 20.0, product: 4.82, utilities: 2.13 }},
+      "Revlon Scalp Treatment": {{ price: 40.0, product: 5.42, utilities: 1.06 }},
+      "Revlon Scalp Mask": {{ price: 15.0, product: 2.36, utilities: 1.06 }},
+      "Treatment": {{ price: 10.0, product: 2.36, utilities: 2.13 }},
+      "Curly Blowdry": {{ price: 32.0, product: 9.58, utilities: 7.44 }},
+      "Gent Cut": {{ price: 17.0, product: 3.8, utilities: 6.38 }},
+      "Gents Wash and Cut": {{ price: 17.0, product: 3.8, utilities: 6.38 }},
+      "cut blowdry long": {{ price: 57.0, product: 9.58, utilities: 9.57 }},
+      "cut medium": {{ price: 52.0, product: 5.25, utilities: 9.57 }},
+      "cut short": {{ price: 47.0, product: 3.8, utilities: 9.57 }},
+      "oap": {{ price: 37.0, product: 3.8, utilities: 6.38 }},
+      "short blowdry": {{ price: 24.0, product: 6.69, utilities: 6.38 }},
+      "long blowdry": {{ price: 29.0, product: 10.3, utilities: 6.38 }},
+      "medium blowdry": {{ price: 27.0, product: 9.85, utilities: 6.38 }},
+      "1/2 head medium": {{ price: 65.0, product: 11.12, utilities: 9.57 }},
+      "1/2 head long": {{ price: 75.0, product: 12.5, utilities: 9.57 }},
+      "baby lights": {{ price: 70.0, product: 15.51, utilities: 12.76 }},
+      "balayage": {{ price: 85.0, product: 3.24, utilities: 15.95 }},
+      "half head short": {{ price: 60.0, product: 14.56, utilities: 9.57 }},
+      "full head short": {{ price: 70.0, product: 19.39, utilities: 12.76 }},
+      "full head long": {{ price: 88.0, product: 23.37, utilities: 15.95 }},
+      "upstyle": {{ price: 45.0, product: 11.03, utilities: 9.57 }},
+      "colour change": {{ price: 88.0, product: 13.43, utilities: 19.14 }},
+      "face framing": {{ price: 55.0, product: 5.67, utilities: 9.57 }},
+      "floods": {{ price: 15.0, product: 6.11, utilities: 6.38 }},
+      "tbar long": {{ price: 50.0, product: 6.8, utilities: 6.38 }},
+      "tbar short": {{ price: 40.0, product: 6.8, utilities: 6.38 }}
+    }};
+
+    document.getElementById('serviceName').addEventListener('change', function() {{
+      const selected = this.value;
+      if (serviceCosts[selected]) {{
+        document.getElementById('servicePrice').value = serviceCosts[selected].price;
+        document.getElementById('productCost').value = serviceCosts[selected].product;
+        document.getElementById('laborCost').value = serviceCosts[selected].utilities.toFixed(2);
+      }}
+    }});
+
+    document.getElementById('profitForm').addEventListener('submit', function(event) {{
+      event.preventDefault();
+      const serviceName = document.getElementById('serviceName').value;
+      const servicePrice = parseFloat(document.getElementById('servicePrice').value);
+      const productCost = parseFloat(document.getElementById('productCost').value);
+      const laborCost = parseFloat(document.getElementById('laborCost').value);
+      const otherExpenses = parseFloat(document.getElementById('otherExpenses').value);
+      const profit = servicePrice - (productCost + laborCost + otherExpenses);
+      document.getElementById('profitResult').innerText = profit.toFixed(2);
+      document.getElementById('selectedService').innerText = serviceName;
+    }});
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
