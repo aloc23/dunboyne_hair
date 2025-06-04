@@ -1,4 +1,3 @@
-
 const serviceCosts = {
   "Bleach Tint": { price: 65.0, product: 4.82, utilities: 9.57 },
   "Cleanse": { price: 30.0, product: 7.02, utilities: 6.38 },
@@ -9,7 +8,8 @@ const serviceCosts = {
   "Semi Long": { price: 50.0, product: 7.01, utilities: 6.38 },
   "Semi Short": { price: 46.0, product: 6.47, utilities: 4.25 },
   "Colour Bomb": { price: 10.0, product: 4.94, utilities: 2.13 },
-  "Loreal Detox": { price: 20.0, product: 2.36, utilities: 1.06 }
+  "K18 to Colour": { price: 25.0, product: 2.36, utilities: 1.06 },
+  "L'oreal Detox": { price: 20.0, product: 2.36, utilities: 1.06 }
 };
 
 document.getElementById('serviceName').addEventListener('change', function () {
