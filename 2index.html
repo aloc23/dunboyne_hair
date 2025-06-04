@@ -15,8 +15,11 @@
         <option value="">-- Choose a Service --</option>
       </select>
     </div>
-    <div id="materialList" class="mt-4"></div>
-    <button id="addUsageBtn" class="btn btn-success mt-3">Add to Usage</button>
+    <div id="materialList" class="mt-4">
+      <h5 class="mt-4">Dosage Reference for Staff</h5>
+    </div>
+    <button id="addUsageBtn" class="btn btn-success mt-3">Service Used – Add to Totals</button>
+    <p class="text-muted mt-1">Click this button only if the service was actually performed to track inventory usage.</p>
     <div class="mt-5">
       <h4>Accumulated Usage</h4>
       <ul id="usageSummary" class="list-group mb-3"></ul>
@@ -25,8 +28,9 @@
     </div>
   </div>
 
+  <!-- JavaScript unchanged except for IDs -->
   <script>
-    const data = { /* service data omitted for brevity, already included above */ };
+    const data = { /* service data omitted for brevity */ };
 
     const dropdown = document.getElementById('serviceDropdown');
     const materialList = document.getElementById('materialList');
@@ -52,7 +56,7 @@
 
     dropdown.addEventListener('change', () => {
       const service = dropdown.value;
-      materialList.innerHTML = '';
+      materialList.innerHTML = '<h5 class="mt-4">Dosage Reference for Staff</h5>';
 
       if (service && data[service]) {
         const list = document.createElement('ul');
