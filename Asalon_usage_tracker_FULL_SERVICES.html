@@ -1,13 +1,61 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Salon Usage Tracker - Full Services</title>
+  <title>Salon Usage Tracker</title>
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; }
-    .section { margin-bottom: 30px; }
-    .hidden { display: none; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f8f9fa;
+      padding: 40px;
+      color: #333;
+    }
+    .section {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 25px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 40px;
+      color: #2c3e50;
+    }
+    label, h3 {
+      font-weight: 600;
+      margin-bottom: 10px;
+      display: block;
+    }
+    select, button {
+      padding: 10px 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-right: 10px;
+      font-size: 14px;
+    }
+    select {
+      background: #fff;
+      min-width: 200px;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    ul {
+      padding-left: 20px;
+    }
+    li {
+      margin-bottom: 6px;
+    }
+    .hidden {
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -34,273 +82,55 @@
   </div>
 
   <div class="section">
-<h3>Service Log <button onclick="toggleLog()">Show/Hide</button></h3>
-<div id="logSection" class="hidden">
-  <ul id="serviceLog"></ul>
-</div>
+    <h3>Service Log <button onclick="toggleLog()">Show/Hide</button></h3>
+    <div id="logSection" class="hidden">
+      <ul id="serviceLog"></ul>
+    </div>
     <button id="exportLogBtn">Export Log CSV</button>
   </div>
-
-  <script>
+    <script>
     document.addEventListener("DOMContentLoaded", function () {
       const data = {
-  "Bleach Tint": {
-    "Shampoo": 25,
-    "Conditioner": 15,
-    "Peroxide": 200,
-    "Bleach": 100,
-    "Gloves": 1
-  },
-  "Cleanse": {
-    "Shampoo": 25,
-    "Conditioner": 15,
-    "Peroxide": 400,
-    "Bleach": 200,
-    "Gloves": 1
-  },
-  "Hi-Lift": {
-    "Shampoo": 25,
-    "Conditioner": 15,
-    "Colour": 60,
-    "Peroxide": 120,
-    "Bleach": 240,
-    "Gloves": 1
-  },
-  "Masking": {
-    "Shampoo": 25,
-    "Conditioner": 15,
-    "Colour": 15,
-    "Peroxide": 45,
-    "Bleach": 90,
-    "Gloves": 1
-  },
-  "Root Melt": {
-    "Shampoo": 25,
-    "Conditioner": 15,
-    "Colour": 45,
-    "Peroxide": 78.5,
-    "Bleach": 157,
-    "Gloves": 1
-  },
-  "Root Tint": {
-    "Shampoo": 25,
-    "Conditioner": 15,
-    "Colour": 45,
-    "Peroxide": 78.5,
-    "Bleach": 157,
-    "Gloves": 1
-  },
-  "semi long": {
-    "Shampoo": 25,
-    "Conditioner": 15,
-    "Colour": 45,
-    "Peroxide": 78.5,
-    "Bleach": 157,
-    "Gloves": 1
-  },
-  "Semi Short": {
-    "Shampoo": 25,
-    "Conditioner": 15,
-    "Colour": 35,
-    "Peroxide": 70,
-    "Bleach": 140,
-    "Gloves": 1
-  },
-  "Colour Bomb": {
-    "Shampoo": 25,
-    "Conditioner": 15,
-    "Colour": 20,
-    "Peroxide": 40,
-    "Bleach": 80,
-    "Gloves": 1
-  },
-  "K18 to Colour": {
-    "Shampoo": 25,
-    "Conditioner": 15,
-    "Hairspray": 30,
-    "Gloves": 1
-  },
-  "L'Oreal Detox": {
-    "Shampoo": 25,
-    "Conditioner": 15,
-    "Hairspray": 30
-  },
-  "Malabu C": {
-    "Shampoo": 25,
-    "Conditioner": 15,
-    "Peroxide": 26,
-    "Bleach": 48.75,
-    "Gloves": 1
-  },
-  "Revlon Gloss Treatment": {
-    "Shampoo": 25,
-    "Conditioner": 15,
-    "Peroxide": 40,
-    "Bleach": 80,
-    "Gloves": 1
-  },
-  "Revlon Scalp Treatment": {
-    "Shampoo": 25,
-    "Conditioner": 15
-  },
-  "mask": {
-    "Shampoo": 25,
-    "Conditioner": 15
-  },
-  "treatment": {
-    "Shampoo": 25,
-    "Conditioner": 15
-  },
-  "Curly Blowdry": {
-    "Shampoo": 25,
-    "Conditioner": 15,
-    "Mousse": 10,
-    "Hairspray": 30
-  },
-  "Gent Cut": {
-    "Shampoo": 25,
-    "Conditioner": 15,
-    "Hairspray": 10
-  },
-  "Gents Wash and Cut": {
-    "Shampoo": 25,
-    "Conditioner": 15,
-    "Hairspray": 10
-  },
-  "Cut Blowdry Long": {
-    "Shampoo": 25,
-    "Conditioner": 15,
-    "Mousse": 10,
-    "Hairspray": 30
-  },
-  "Cut Medium": {
-    "Shampoo": 25,
-    "Conditioner": 15,
-    "Mousse": 10,
-    "Hairspray": 20
-  },
-  "Cut Short": {
-    "Shampoo": 25,
-    "Conditioner": 15,
-    "Hairspray": 10
-  },
-  "OAP": {
-    "Shampoo": 25,
-    "Conditioner": 15,
-    "Hairspray": 10
-  },
-  "Short Blowdry": {
-    "Shampoo": 25,
-    "Conditioner": 15,
-    "Mousse": 10,
-    "Hairspray": 10
-  },
-  "Long Blowdry": {
-    "Shampoo": 25,
-    "Conditioner": 15,
-    "Mousse": 10,
-    "Hairspray": 35
-  },
-  "Medium Blowdry": {
-    "Shampoo": 25,
-    "Conditioner": 15,
-    "Hairspray": 25
-  },
-  "1/2 Head Medium": {
-    "Shampoo": 25,
-    "Conditioner": 15,
-    "Peroxide": 90,
-    "Bleach": 45
-  },
-  "1/2 Head Long": {
-    "Shampoo": 25,
-    "Conditioner": 15,
-    "Peroxide": 120,
-    "Bleach": 60,
-    "Wraps": 50
-  },
-  "Baby Lights": {
-    "Shampoo": 25,
-    "Conditioner": 15,
-    "Peroxide": 110,
-    "Bleach": 55,
-    "Wraps": 60
-  },
-  "Balayage": {
-    "Shampoo": 25,
-    "Conditioner": 15,
-    "Peroxide": 180,
-    "Bleach": 90,
-    "Wraps": 75
-  },
-  "Half Head Short": {
-    "Shampoo": 25,
-    "Conditioner": 15,
-    "Colour": 45,
-    "Peroxide": 80,
-    "Bleach": 40
-  },
-  "Full Head Short": {
-    "Shampoo": 25,
-    "Conditioner": 15,
-    "Colour": 60,
-    "Peroxide": 150,
-    "Bleach": 75,
-    "Wraps": 40
-  },
-  "Full Head Long": {
-    "Shampoo": 25,
-    "Conditioner": 15,
-    "Colour": 90,
-    "Peroxide": 180,
-    "Bleach": 90,
-    "Wraps": 60
-  },
-  "Upstyle": {
-    "Shampoo": 25,
-    "Conditioner": 15,
-    "Mousse": 15,
-    "Hairspray": 30,
-    "Wraps": 100
-  },
-  "Colour Change": {
-    "Shampoo": 25,
-    "Conditioner": 15,
-    "Colour": 90,
-    "Peroxide": 180,
-    "Bleach": 65
-  },
-  "Face Framing": {
-    "Shampoo": 25,
-    "Conditioner": 15,
-    "Peroxide": 60,
-    "Bleach": 30,
-    "Gloves": 1
-  },
-  "Floods": {
-    "Shampoo": 25,
-    "Conditioner": 15,
-    "Peroxide": 30,
-    "Bleach": 15,
-    "Wraps": 20
-  },
-  "T-Bar Long": {
-    "Shampoo": 25,
-    "Conditioner": 15,
-    "Peroxide": 70,
-    "Bleach": 35,
-    "Wraps": 20
-  },
-  "T-Bar Short": {
-    "Shampoo": 25,
-    "Conditioner": 15,
-    "Peroxide": 65,
-    "Bleach": 32.5,
-    "Wraps": 25
-  }
-};
-
-      const dropdown = document.getElementById('serviceDropdown');
+        "Bleach Tint": { "Shampoo": 25, "Conditioner": 15, "Peroxide": 200, "Bleach": 100, "Gloves": 1 },
+        "Cleanse": { "Shampoo": 25, "Conditioner": 15, "Peroxide": 400, "Bleach": 200, "Gloves": 1 },
+        "Hi-Lift": { "Shampoo": 25, "Conditioner": 15, "Colour": 60, "Peroxide": 120, "Bleach": 240, "Gloves": 1 },
+        "Masking": { "Shampoo": 25, "Conditioner": 15, "Colour": 15, "Peroxide": 45, "Bleach": 90, "Gloves": 1 },
+        "Root Melt": { "Shampoo": 25, "Conditioner": 15, "Colour": 45, "Peroxide": 78.5, "Bleach": 157, "Gloves": 1 },
+        "Root Tint": { "Shampoo": 25, "Conditioner": 15, "Colour": 45, "Peroxide": 78.5, "Bleach": 157, "Gloves": 1 },
+        "semi long": { "Shampoo": 25, "Conditioner": 15, "Colour": 45, "Peroxide": 78.5, "Bleach": 157, "Gloves": 1 },
+        "Semi Short": { "Shampoo": 25, "Conditioner": 15, "Colour": 35, "Peroxide": 70, "Bleach": 140, "Gloves": 1 },
+        "Colour Bomb": { "Shampoo": 25, "Conditioner": 15, "Colour": 20, "Peroxide": 40, "Bleach": 80, "Gloves": 1 },
+        "K18 to Colour": { "Shampoo": 25, "Conditioner": 15, "Hairspray": 30, "Gloves": 1 },
+        "L'Oreal Detox": { "Shampoo": 25, "Conditioner": 15, "Hairspray": 30 },
+        "Malabu C": { "Shampoo": 25, "Conditioner": 15, "Peroxide": 26, "Bleach": 48.75, "Gloves": 1 },
+        "Revlon Gloss Treatment": { "Shampoo": 25, "Conditioner": 15, "Peroxide": 40, "Bleach": 80, "Gloves": 1 },
+        "Revlon Scalp Treatment": { "Shampoo": 25, "Conditioner": 15 },
+        "mask": { "Shampoo": 25, "Conditioner": 15 },
+        "treatment": { "Shampoo": 25, "Conditioner": 15 },
+        "Curly Blowdry": { "Shampoo": 25, "Conditioner": 15, "Mousse": 10, "Hairspray": 30 },
+        "Gent Cut": { "Shampoo": 25, "Conditioner": 15, "Hairspray": 10 },
+        "Gents Wash and Cut": { "Shampoo": 25, "Conditioner": 15, "Hairspray": 10 },
+        "Cut Blowdry Long": { "Shampoo": 25, "Conditioner": 15, "Mousse": 10, "Hairspray": 30 },
+        "Cut Medium": { "Shampoo": 25, "Conditioner": 15, "Mousse": 10, "Hairspray": 20 },
+        "Cut Short": { "Shampoo": 25, "Conditioner": 15, "Hairspray": 10 },
+        "OAP": { "Shampoo": 25, "Conditioner": 15, "Hairspray": 10 },
+        "Short Blowdry": { "Shampoo": 25, "Conditioner": 15, "Mousse": 10, "Hairspray": 10 },
+        "Long Blowdry": { "Shampoo": 25, "Conditioner": 15, "Mousse": 10, "Hairspray": 35 },
+        "Medium Blowdry": { "Shampoo": 25, "Conditioner": 15, "Hairspray": 25 },
+        "1/2 Head Medium": { "Shampoo": 25, "Conditioner": 15, "Peroxide": 90, "Bleach": 45 },
+        "1/2 Head Long": { "Shampoo": 25, "Conditioner": 15, "Peroxide": 120, "Bleach": 60, "Wraps": 50 },
+        "Baby Lights": { "Shampoo": 25, "Conditioner": 15, "Peroxide": 110, "Bleach": 55, "Wraps": 60 },
+        "Balayage": { "Shampoo": 25, "Conditioner": 15, "Peroxide": 180, "Bleach": 90, "Wraps": 75 },
+        "Half Head Short": { "Shampoo": 25, "Conditioner": 15, "Colour": 45, "Peroxide": 80, "Bleach": 40 },
+        "Full Head Short": { "Shampoo": 25, "Conditioner": 15, "Colour": 60, "Peroxide": 150, "Bleach": 75, "Wraps": 40 },
+        "Full Head Long": { "Shampoo": 25, "Conditioner": 15, "Colour": 90, "Peroxide": 180, "Bleach": 90, "Wraps": 60 },
+        "Upstyle": { "Shampoo": 25, "Conditioner": 15, "Mousse": 15, "Hairspray": 30, "Wraps": 100 },
+        "Colour Change": { "Shampoo": 25, "Conditioner": 15, "Colour": 90, "Peroxide": 180, "Bleach": 65 },
+        "Face Framing": { "Shampoo": 25, "Conditioner": 15, "Peroxide": 60, "Bleach": 30, "Gloves": 1 },
+        "Floods": { "Shampoo": 25, "Conditioner": 15, "Peroxide": 30, "Bleach": 15, "Wraps": 20 },
+        "T-Bar Long": { "Shampoo": 25, "Conditioner": 15, "Peroxide": 70, "Bleach": 35, "Wraps": 20 },
+        "T-Bar Short": { "Shampoo": 25, "Conditioner": 15, "Peroxide": 65, "Bleach": 32.5, "Wraps": 25 }
+      };      const dropdown = document.getElementById('serviceDropdown');
       const materialList = document.getElementById('materialList');
       const usageSummary = document.getElementById('usageSummary');
       const serviceLog = document.getElementById('serviceLog');
@@ -353,28 +183,26 @@
         }
       }
 
-function renderLog() {
-  serviceLog.innerHTML = '';
-  const grouped = {};
-  usageLog.forEach(log => {
-    if (!grouped[log.service]) {
-      grouped[log.service] = { count: 0, total: {} };
-    }
-    grouped[log.service].count += 1;
-    for (const [mat, val] of Object.entries(log.materials)) {
-      grouped[log.service].total[mat] = (grouped[log.service].total[mat] || 0) + val;
-    }
-  });
+      function renderLog() {
+        serviceLog.innerHTML = '';
+        const grouped = {};
+        usageLog.forEach(log => {
+          if (!grouped[log.service]) {
+            grouped[log.service] = { count: 0, total: {} };
+          }
+          grouped[log.service].count += 1;
+          for (const [mat, val] of Object.entries(log.materials)) {
+            grouped[log.service].total[mat] = (grouped[log.service].total[mat] || 0) + val;
+          }
+        });
 
-  for (const [service, summary] of Object.entries(grouped)) {
-    const li = document.createElement('li');
-    const matList = Object.entries(summary.total).map(([m, v]) => `${m}: ${v}`).join(', ');
-    li.textContent = `${service} x${summary.count} — ${matList}`;
-    serviceLog.appendChild(li);
-  }
-}
-
-      document.getElementById('resetUsageBtn').addEventListener('click', () => {
+        for (const [service, summary] of Object.entries(grouped)) {
+          const li = document.createElement('li');
+          const matList = Object.entries(summary.total).map(([m, v]) => `${m}: ${v}`).join(', ');
+          li.textContent = `${service} x${summary.count} — ${matList}`;
+          serviceLog.appendChild(li);
+        }
+      }      document.getElementById('resetUsageBtn').addEventListener('click', () => {
         accumulatedUsage = {};
         usageLog = [];
         localStorage.removeItem("accumulatedUsage");
@@ -409,12 +237,16 @@ function renderLog() {
         document.body.removeChild(link);
       }
 
+      window.toggleLog = function () {
+        const section = document.getElementById("logSection");
+        section.classList.toggle("hidden");
+        if (!section.classList.contains("hidden")) {
+          renderLog();
+        }
+      };
+
       renderSummary();
       renderLog();
-  function toggleLog() {
-  const section = document.getElementById("logSection");
-  section.classList.toggle("hidden");
-}
     });
   </script>
 </body>
