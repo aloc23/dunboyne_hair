@@ -9,7 +9,7 @@ const serviceCosts = {
   "Semi Short": { price: 46.0, product: 6.47, utilities: 4.25 },
   "Colour Bomb": { price: 10.0, product: 4.94, utilities: 2.13 },
   "K18 to Colour": { price: 25.0, product: 2.36, utilities: 1.06 },
-  "L'oreal Detox": { price: 20.0, product: 2.36, utilities: 1.06 }
+  "Loreal Detox": { price: 20.0, product: 2.36, utilities: 1.06 }
 };
 
 document.getElementById('serviceName').addEventListener('change', function () {
