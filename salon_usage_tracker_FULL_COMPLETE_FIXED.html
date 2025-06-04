@@ -482,6 +482,137 @@ function toggleLog() {
   section.classList.toggle("hidden");
   if (!section.classList.contains("hidden")) {
     renderLog();
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+  const data = {
+    "Bleach Tint": { "Shampoo": 25, "Conditioner": 15, "Peroxide": 200, "Bleach": 100, "Gloves": 1 },
+    "Cleanse": { "Shampoo": 25, "Conditioner": 15, "Peroxide": 400, "Bleach": 200, "Gloves": 1 },
+    "Hi-Lift": { "Shampoo": 25, "Conditioner": 15, "Colour": 60, "Peroxide": 120, "Bleach": 240, "Gloves": 1 },
+    ...
+    "T-Bar Short": { "Shampoo": 25, "Conditioner": 15, "Peroxide": 65, "Bleach": 32.5, "Wraps": 25 }
+  };
+
+  const dropdown = document.getElementById('serviceDropdown');
+  const materialList = document.getElementById('materialList');
+  const usageSummary = document.getElementById('usageSummary');
+  const serviceLog = document.getElementById('serviceLog');
+
+  let accumulatedUsage = JSON.parse(localStorage.getItem("accumulatedUsage") || '{}');
+  let usageLog = JSON.parse(localStorage.getItem("usageLog") || '[]');
+
+  Object.keys(data).forEach(service => {
+    const option = document.createElement('option');
+    option.value = service;
+    option.textContent = service;
+    dropdown.appendChild(option);
+  });
+
+  dropdown.addEventListener('change', () => {
+    const selected = dropdown.value;
+    materialList.innerHTML = '';
+    if (selected && data[selected]) {
+      for (const [material, amount] of Object.entries(data[selected])) {
+        const li = document.createElement('li');
+        li.textContent = `${material}: ${amount}`;
+        materialList.appendChild(li);
+      }
+    }
+  });
+
+  document.getElementById('addServiceBtn').addEventListener('click', () => {
+    const selected = dropdown.value;
+    if (!selected || !data[selected]) return;
+
+    const entry = { service: selected, timestamp: new Date().toLocaleString(), materials: data[selected] };
+    usageLog.push(entry);
+    localStorage.setItem("usageLog", JSON.stringify(usageLog));
+
+    for (const [mat, amt] of Object.entries(data[selected])) {
+      accumulatedUsage[mat] = (accumulatedUsage[mat] || 0) + amt;
+    }
+    localStorage.setItem("accumulatedUsage", JSON.stringify(accumulatedUsage));
+
+    renderSummary();
+    renderLog();
+  });
+
+  function renderSummary() {
+    usageSummary.innerHTML = '';
+    for (const [mat, amt] of Object.entries(accumulatedUsage)) {
+      const li = document.createElement('li');
+      li.textContent = `${mat}: ${amt}`;
+      usageSummary.appendChild(li);
+    }
+  }
+
+  function renderLog() {
+    serviceLog.innerHTML = '';
+    const grouped = {};
+    usageLog.forEach(log => {
+      if (!grouped[log.service]) {
+        grouped[log.service] = { count: 0, total: {} };
+      }
+      grouped[log.service].count += 1;
+      for (const [mat, val] of Object.entries(log.materials)) {
+        grouped[log.service].total[mat] = (grouped[log.service].total[mat] || 0) + val;
+      }
+    });
+
+    for (const [service, summary] of Object.entries(grouped)) {
+      const li = document.createElement('li');
+      const matList = Object.entries(summary.total).map(([m, v]) => `${m}: ${v}`).join(', ');
+      li.textContent = `${service} x${summary.count} — ${matList}`;
+      serviceLog.appendChild(li);
+    }
+  }
+
+  document.getElementById('resetUsageBtn').addEventListener('click', () => {
+    accumulatedUsage = {};
+    usageLog = [];
+    localStorage.removeItem("accumulatedUsage");
+    localStorage.removeItem("usageLog");
+    renderSummary();
+    renderLog();
+  });
+
+  document.getElementById('exportUsageBtn').addEventListener('click', () => {
+    const rows = [['Material', 'Total']];
+    Object.entries(accumulatedUsage).forEach(([mat, amt]) => rows.push([mat, amt]));
+    downloadCSV(rows, "salon_material_usage.csv");
+  });
+
+  document.getElementById('exportLogBtn').addEventListener('click', () => {
+    const rows = [['Service', 'Timestamp', 'Materials']];
+    usageLog.forEach(log => {
+      const matList = Object.entries(log.materials).map(([m, v]) => `${m}: ${v}`).join('; ');
+      rows.push([log.service, log.timestamp, matList]);
+    });
+    downloadCSV(rows, "salon_service_log.csv");
+  });
+
+  function downloadCSV(rows, filename) {
+    const csv = rows.map(r => r.join(",")).join("\\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.setAttribute("download", filename);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  window.toggleLog = function () {
+    const section = document.getElementById("logSection");
+    section.classList.toggle("hidden");
+    if (!section.classList.contains("hidden")) {
+      renderLog();
+    }
+  };
+
+  renderSummary();
+  renderLog();
+});
+</script>
   }
 }
 </script>
