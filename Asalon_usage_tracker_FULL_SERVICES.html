@@ -34,8 +34,10 @@
   </div>
 
   <div class="section">
-    <h3>Service Log</h3>
-    <ul id="serviceLog"></ul>
+<h3>Service Log <button onclick="toggleLog()">Show/Hide</button></h3>
+<div id="logSection" class="hidden">
+  <ul id="serviceLog"></ul>
+</div>
     <button id="exportLogBtn">Export Log CSV</button>
   </div>
 
@@ -351,15 +353,26 @@
         }
       }
 
-      function renderLog() {
-        serviceLog.innerHTML = '';
-        usageLog.forEach(log => {
-          const li = document.createElement('li');
-          const matList = Object.entries(log.materials).map(([m, v]) => `${m}: ${v}`).join(', ');
-          li.textContent = `${log.timestamp} — ${log.service} (${matList})`;
-          serviceLog.appendChild(li);
-        });
-      }
+function renderLog() {
+  serviceLog.innerHTML = '';
+  const grouped = {};
+  usageLog.forEach(log => {
+    if (!grouped[log.service]) {
+      grouped[log.service] = { count: 0, total: {} };
+    }
+    grouped[log.service].count += 1;
+    for (const [mat, val] of Object.entries(log.materials)) {
+      grouped[log.service].total[mat] = (grouped[log.service].total[mat] || 0) + val;
+    }
+  });
+
+  for (const [service, summary] of Object.entries(grouped)) {
+    const li = document.createElement('li');
+    const matList = Object.entries(summary.total).map(([m, v]) => `${m}: ${v}`).join(', ');
+    li.textContent = `${service} x${summary.count} — ${matList}`;
+    serviceLog.appendChild(li);
+  }
+}
 
       document.getElementById('resetUsageBtn').addEventListener('click', () => {
         accumulatedUsage = {};
@@ -398,6 +411,10 @@
 
       renderSummary();
       renderLog();
+  function toggleLog() {
+  const section = document.getElementById("logSection");
+  section.classList.toggle("hidden");
+}
     });
   </script>
 </body>
